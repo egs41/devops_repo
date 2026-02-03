@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: user-management-app
+  namespace: default
+  labels:
+    app: user-management-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: user-management-app
+  template:
+    metadata:
+      labels:
+        app: user-management-app
+    spec:
+      containers:
+      - name: user-management-app
+        image: 948310859421.dkr.ecr.ap-northeast-2.amazonaws.com/user-management-app:latest
+        ports:
+        - containerPort: 5000
+          name: signup-port
+        - containerPort: 5001
+          name: list-port
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 5000
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 5000
+          initialDelaySeconds: 5
+          periodSeconds: 5
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "250m"
+          limits:
+            memory: "256Mi"
+            cpu: "500m"
+        env:
+        - name: FLASK_ENV
+          value: "production"
