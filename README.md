@@ -6,3 +6,4 @@
 - Dockerfile 작성하여 빌드
 - ArgoCD 사용하여 배포
 - 서비스 접근 가능하도록 ingress, service 등 구성
+- 배포 과정을 '캡처 모음' 폴더에 순서대로 캡처
